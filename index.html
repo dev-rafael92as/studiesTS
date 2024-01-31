@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+          font-size: 1.25rem;
+          font-family: sans-serif;
+          margin: 2rem;
+        }
+      
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+      
+        input {
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+          padding: 0.5rem;
+          min-width: 50vw;
+          max-width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+      </style>
+      
+      <hr>
+
+      <h2>Estatísticas</h2>
+      <p id="total">Total: <span id="valueTotal"></span></p>
+      <hr>
+
+      <div id="paymentMethods">
+        
+
+      </div>
+
+      <hr>
+
+      <div id="status">
+
+        <div id="maisVendas">
+
+        </div>
+      </div>
+
+      <hr>
+      
+      <h2>Dados</h2>
+      <table id="transacoes">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Compra</th>
+                <th>Pagamento</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+      
+    <script type="module" src="./dist/exercicio1.js"></script>
+</body>
+</html>

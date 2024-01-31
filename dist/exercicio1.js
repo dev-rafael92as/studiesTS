@@ -1,3 +1,4 @@
+import Estatisticas from "./Estatisticas.js";
 import fetchData from "./fetchData.js";
 import normalizarTransacao from "./normalizarTransacao.js";
 async function handleData() {
@@ -5,18 +6,38 @@ async function handleData() {
     if (!data)
         return;
     const transacoes = data.map(normalizarTransacao);
-    console.log(transacoes);
+    preencherTabela(transacoes);
+    preencherEstatisticas(transacoes);
+}
+function preencherEstatisticas(transacoes) {
+    const data = new Estatisticas(transacoes);
+    const spanHTML = document.querySelector("#valueTotal");
+    if (spanHTML) {
+        spanHTML.innerText = formatarValorBRL(data.total);
+    }
+}
+function preencherTabela(transacoes) {
+    const tabela = document.querySelector("#transacoes tBody");
+    if (!tabela)
+        return;
+    transacoes.forEach((transacao) => {
+        tabela.innerHTML += `<tr>
+        <td>${transacao.nome}</td>
+        <td>${transacao.email}</td>
+        <td>${transacao.moeda}</td>
+        <td>${transacao.pagamento}</td>
+        <td>${transacao.status}</td>
+    </tr>`;
+    });
 }
 handleData();
 async function fetchData1() {
     const transaction = await fetch("https://api.origamid.dev/json/transacoes.json");
     const transactionJSON = await transaction.json();
     const normalizedData = normalizeKeys(transactionJSON);
-    populateTotalValues(normalizedData);
     obterOpcoesUnicasPagamento(normalizedData, 'formaDePagamento');
     obterOpcoesUnicasStatus(normalizedData, 'status');
     obterDiaComMaisVenda(normalizedData);
-    popularTabela(normalizedData);
 }
 fetchData1();
 function obterDiaComMaisVenda(data) {
@@ -125,38 +146,6 @@ function normalizeKeys(data) {
             }
         }
         return normalizedItem;
-    });
-}
-function popularTabela(data) {
-    data.forEach((venda) => {
-        const tBody = document.querySelector('tbody');
-        if (tBody instanceof HTMLTableSectionElement) {
-            const statusVenda = venda.status;
-            const nomeCliente = venda.nome;
-            const emailCliente = venda.email;
-            const tipoPagamento = venda.formaDePagamento;
-            const valorVendaBruto = venda.valor;
-            let valorFormatado;
-            if (valorVendaBruto === '-') {
-                valorFormatado = "R$ -";
-            }
-            else {
-                valorFormatado = formatarValorBRL(Number(valorVendaBruto.replace('.', '').replace(",", ".")));
-            }
-            if (typeof statusVenda === 'string' &&
-                typeof nomeCliente === 'string' &&
-                typeof emailCliente === 'string' &&
-                typeof valorFormatado === 'string' &&
-                typeof tipoPagamento === 'string') {
-                tBody.insertAdjacentHTML('afterbegin', `<tr>
-                    <td>${nomeCliente}</td>
-                    <td>${emailCliente}</td>
-                    <td>${valorFormatado}</td>
-                    <td>${tipoPagamento}</td>
-                    <td>${statusVenda}</td>
-                </tr>`);
-            }
-        }
     });
 }
 //# sourceMappingURL=exercicio1.js.map
